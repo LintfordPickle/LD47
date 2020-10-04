@@ -3,17 +3,13 @@ package org.lintfordpickle.ld47.renderers.ui;
 import java.util.concurrent.TimeUnit;
 
 import org.lintfordpickle.ld47.controllers.GameStateController;
-import org.lintfordpickle.ld47.controllers.TrackController;
-import org.lintfordpickle.ld47.controllers.TrainController;
 
 import net.lintford.library.core.LintfordCore;
 import net.lintford.library.core.ResourceManager;
 import net.lintford.library.core.graphics.sprites.spritesheet.SpriteSheetDefinition;
-import net.lintford.library.core.graphics.textures.texturebatch.TextureBatchPCT;
 import net.lintford.library.core.input.IProcessMouseInput;
 import net.lintford.library.renderers.RendererManager;
 import net.lintford.library.renderers.windows.UIWindow;
-import net.lintford.library.renderers.windows.components.UISlider;
 
 public class GameStateUIRenderer extends UIWindow implements IProcessMouseInput {
 
@@ -28,11 +24,7 @@ public class GameStateUIRenderer extends UIWindow implements IProcessMouseInput 
 	// ---------------------------------------------
 
 	private GameStateController mGameStateController;
-	private TrainController mTrainController;
-	private TrackController mTrackController;
 	private SpriteSheetDefinition mWorldDefinition;
-
-	private UISlider mSpeedControlSlider;
 
 	// ---------------------------------------------
 	// Properties
@@ -60,14 +52,6 @@ public class GameStateUIRenderer extends UIWindow implements IProcessMouseInput 
 	public GameStateUIRenderer(RendererManager pRendererManager, int pEntityGroupID) {
 		super(pRendererManager, RENDERER_NAME, pEntityGroupID);
 
-		mSpeedControlSlider = new UISlider(this);
-		mSpeedControlSlider.buttonLabel("SPEED");
-		mSpeedControlSlider.set(0, 0, 300, 30);
-		mSpeedControlSlider.mMinValue = 1.f;
-		mSpeedControlSlider.mMaxValue = 10.f;
-
-		mComponents.add(mSpeedControlSlider);
-
 		mIsOpen = true;
 
 	}
@@ -79,11 +63,6 @@ public class GameStateUIRenderer extends UIWindow implements IProcessMouseInput 
 	@Override
 	public void initialize(LintfordCore pCore) {
 		mGameStateController = (GameStateController) pCore.controllerManager().getControllerByNameRequired(GameStateController.CONTROLLER_NAME, entityGroupID());
-		mTrackController = (TrackController) pCore.controllerManager().getControllerByNameRequired(TrackController.CONTROLLER_NAME, entityGroupID());
-		mTrainController = (TrainController) pCore.controllerManager().getControllerByNameRequired(TrainController.CONTROLLER_NAME, entityGroupID());
-
-		mSpeedControlSlider.initialize();
-		mSpeedControlSlider.currentValue(1.5f);
 
 	}
 
@@ -96,23 +75,8 @@ public class GameStateUIRenderer extends UIWindow implements IProcessMouseInput 
 	}
 
 	@Override
-	public void update(LintfordCore pCore) {
-		// Don't draw UI when game over
-		if (mGameStateController.getHasLost() || mGameStateController.getHasWon())
-			return;
-
-		final float lSpeedAsPerSlider = mSpeedControlSlider.currentValue();
-
-		final var lPlayerTrain = mTrainController.mainTrain();
-		if (lPlayerTrain != null) {
-			lPlayerTrain.setSpeed(lSpeedAsPerSlider);
-
-		}
-	}
-
-	@Override
 	public void draw(LintfordCore pCore) {
-		if (!mTrackController.isinitialized())
+		if (!mGameStateController.isinitialized())
 			return;
 
 		// Don't draw UI when game over
@@ -123,20 +87,19 @@ public class GameStateUIRenderer extends UIWindow implements IProcessMouseInput 
 		final var lTitleFont = mRendererManager.titleFont();
 		lTitleFont.drawShadow(true);
 
-		final TextureBatchPCT lTextureBatch = mRendererManager.uiTextureBatch();
-		final var ll = mRendererManager.uiSpriteBatch();
+		final var lSpriteBatch = mRendererManager.uiSpriteBatch();
 
 		{ // Deco
-			ll.begin(pCore.HUD());
+			lSpriteBatch.begin(pCore.HUD());
 			final var lTrainFrontSprite = mWorldDefinition.getSpriteFrame("TEXTURETRAINFRONT");
 			final float lScale = 2.f;
 			final float lWidth = lTrainFrontSprite.width() * lScale;
 
-			ll.draw(mWorldDefinition, lTrainFrontSprite, -200.f - lWidth * .5f, lHudRect.top() + 15f, lTrainFrontSprite.width() * 2.f, lTrainFrontSprite.height() * 2.f, -0.1f, 1.f, 1.f, 1.f, 1.f);
+			lSpriteBatch.draw(mWorldDefinition, lTrainFrontSprite, -200.f - lWidth * .5f, lHudRect.top() + 15f, lTrainFrontSprite.width() * 2.f, lTrainFrontSprite.height() * 2.f, -0.1f, 1.f, 1.f, 1.f, 1.f);
 
 			final var lTrainBackSprite = mWorldDefinition.getSpriteFrame("TEXTURETRAINBACK");
-			ll.draw(mWorldDefinition, lTrainBackSprite, +200.f - lWidth * .5f, lHudRect.top() + 15f, lTrainBackSprite.width() * 2.f, lTrainBackSprite.height() * 2.f, -0.1f, 1.f, 1.f, 1.f, 1.f);
-			ll.end();
+			lSpriteBatch.draw(mWorldDefinition, lTrainBackSprite, +200.f - lWidth * .5f, lHudRect.top() + 15f, lTrainBackSprite.width() * 2.f, lTrainBackSprite.height() * 2.f, -0.1f, 1.f, 1.f, 1.f, 1.f);
+			lSpriteBatch.end();
 		}
 
 		{ // Time remaining
@@ -163,7 +126,8 @@ public class GameStateUIRenderer extends UIWindow implements IProcessMouseInput 
 
 		{ // Health
 
-			final var lHealthString = mGameStateController.getHealthStatus();;
+			final var lHealthString = mGameStateController.getHealthStatus();
+			;
 			final var lHealthStringWidth = lTitleFont.bitmap().getStringWidth(lHealthString);
 
 			lTitleFont.begin(pCore.HUD());
