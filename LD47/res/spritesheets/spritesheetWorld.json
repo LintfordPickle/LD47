@@ -1,0 +1,205 @@
+{
+  "spriteSheetName": "SPRITESHEET_WORLD",
+  "textureName": "TEXTURE_WORLD",
+  "textureFilename": "res/textures/textureWorld.png",
+  "frameMap": {
+    "TEXTURECONTROLHANDLEOUTER": {
+      "x": 0,
+      "y": 0,
+      "w": 256,
+      "h": 256,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTURECONTROLHANDLE": {
+      "x": 256,
+      "y": 0,
+      "w": 256,
+      "h": 256,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTURETRAINBACK": {
+      "x": 0,
+      "y": 256,
+      "w": 96,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTURETRAINFRONT": {
+      "x": 96,
+      "y": 256,
+      "w": 96,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTURETREE02": {
+      "x": 192,
+      "y": 256,
+      "w": 32,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTURETREE01": {
+      "x": 224,
+      "y": 256,
+      "w": 32,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTURETREE00": {
+      "x": 256,
+      "y": 256,
+      "w": 32,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTURESIGNALRIGHT": {
+      "x": 288,
+      "y": 256,
+      "w": 32,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTURESIGNALLEFT": {
+      "x": 320,
+      "y": 256,
+      "w": 32,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTUREGRASS00": {
+      "x": 352,
+      "y": 256,
+      "w": 32,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTUREDEPOTWEST": {
+      "x": 384,
+      "y": 256,
+      "w": 32,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTUREDEPOTSOUTH": {
+      "x": 416,
+      "y": 256,
+      "w": 32,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTUREDEPOTNORTH": {
+      "x": 448,
+      "y": 256,
+      "w": 32,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTURECARRIAGE": {
+      "x": 480,
+      "y": 256,
+      "w": 16,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTURETRAIN01": {
+      "x": 496,
+      "y": 256,
+      "w": 16,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTURETRAIN00": {
+      "x": 0,
+      "y": 288,
+      "w": 16,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTURETRACK": {
+      "x": 16,
+      "y": 288,
+      "w": 16,
+      "h": 32,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    },
+    "TEXTUREGREENLIGHT": {
+      "x": 32,
+      "y": 288,
+      "w": 16,
+      "h": 16,
+      "pivotX": 0.0,
+      "pivotY": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "anchorPoints": []
+    }
+  }
+}

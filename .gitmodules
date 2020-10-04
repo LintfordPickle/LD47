@@ -1,0 +1,3 @@
+[submodule "Java-LDLibraryGL"]
+	path = Java-LDLibraryGL
+	url = https://github.com/LintfordPickle/Java-LDLibraryGL.git
