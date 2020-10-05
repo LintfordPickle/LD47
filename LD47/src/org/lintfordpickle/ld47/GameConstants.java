@@ -8,6 +8,8 @@ public class GameConstants {
 	
 	public static boolean ENABLE_BOX2D_DEBUG_DRAW = false;
 	
+	public static boolean WINDOW_RESIZABLE = false;
+	
 	// When in debug mode, there is no constraints on zoom factor
 	// [CameraZoomController]
 	// When in debug mode, there is no constraints on movement bounds

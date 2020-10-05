@@ -37,7 +37,7 @@ public class MainApp extends LintfordCore {
 
 			@Override
 			public boolean windowResizeable() {
-				return false;
+				return GameConstants.WINDOW_RESIZABLE;
 			}
 		};
 
