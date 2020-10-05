@@ -4,7 +4,7 @@ public class GameConstants {
 
 	// [GameStateController] Enables win and lose conditions
 	// [EnemySpawnController] Game end conditions don't affect spawning if on
-	public static boolean PREVIEW_MODE = true;
+	public static boolean PREVIEW_MODE = false;
 
 	public static boolean ENABLE_BOX2D_DEBUG_DRAW = false;
 
@@ -32,8 +32,8 @@ public class GameConstants {
 
 	// Controls the amount of time between enemy train spawns (random value)
 	// [EnemySpawnController]
-	public static float ENEMY_SPAWN_MIN_TIME_MS = 4000.0f;
-	public static float ENEMY_SPAWN_MAX_TIME_MS = 8000.0f;
+	public static float ENEMY_SPAWN_MIN_TIME_MS = 3000.0f;
+	public static float ENEMY_SPAWN_MAX_TIME_MS = 7000.0f;
 
 	// Issue with carriages means they must be disbaled for now
 	// [TrainController]

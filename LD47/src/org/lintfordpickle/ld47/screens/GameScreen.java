@@ -28,6 +28,9 @@ import org.lwjgl.glfw.GLFW;
 import net.lintford.library.controllers.core.ControllerManager;
 import net.lintford.library.core.LintfordCore;
 import net.lintford.library.core.ResourceManager;
+import net.lintford.library.core.audio.AudioManager;
+import net.lintford.library.core.audio.AudioSource;
+import net.lintford.library.core.audio.data.AudioData;
 import net.lintford.library.core.debug.Debug;
 import net.lintford.library.renderers.debug.DebugBox2dDrawer;
 import net.lintford.library.screenmanager.ScreenManager;
@@ -65,6 +68,13 @@ public class GameScreen extends BaseGameScreen {
 	private BackgroundRenderer mBackgroundRenderer;
 	private GameStateUIRenderer mGameStateUIRenderer;
 	private SceneryRenderer mSceneryRenderer;
+
+	private AudioSource mBackgroundAudioSource;
+	private AudioData mAudioDataBufferBackground;
+
+	// ---------------------------------------------
+	// Properties
+	// ---------------------------------------------
 
 	// ---------------------------------------------
 	// Constructor
@@ -120,6 +130,32 @@ public class GameScreen extends BaseGameScreen {
 		super.loadGLContent(pResourceManager);
 
 		pResourceManager.spriteSheetManager().loadSpriteSheet("res/spritesheets/spritesheetWorld.json", entityGroupID());
+
+		pResourceManager.audioManager().loadAudioFile("SOUND_BACKGROUND", "res/sounds/soundBackground.wav", false);
+
+		mAudioDataBufferBackground = pResourceManager.audioManager().getAudioDataBufferByName("SOUND_BACKGROUND");
+		mBackgroundAudioSource = pResourceManager.audioManager().getAudioSource(hashCode(), AudioManager.AUDIO_SOURCE_TYPE_SOUNDFX);
+
+		mBackgroundAudioSource.setLooping(true);
+		if (mAudioDataBufferBackground != null) {
+			// mBackgroundAudioSource.play(mAudioDataBufferBackground.bufferID());
+
+		}
+
+	}
+
+	@Override
+	public void unloadGLContent() {
+		super.unloadGLContent();
+
+		if (mBackgroundAudioSource != null) {
+			if (mBackgroundAudioSource.isPlaying()) {
+				mBackgroundAudioSource.stop();
+			}
+		}
+
+		mBackgroundAudioSource.unassign(hashCode());
+		mBackgroundAudioSource = null;
 
 	}
 

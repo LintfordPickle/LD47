@@ -13,7 +13,10 @@ import org.lintfordpickle.ld47.data.train.TrainManager;
 
 import net.lintford.library.controllers.BaseController;
 import net.lintford.library.controllers.core.ControllerManager;
+import net.lintford.library.controllers.core.ResourceController;
 import net.lintford.library.core.LintfordCore;
+import net.lintford.library.core.audio.AudioFireAndForgetManager;
+import net.lintford.library.core.audio.AudioListener;
 import net.lintford.library.core.box2d.entities.JBox2dEntityInstance;
 
 public class TrainController extends BaseController {
@@ -36,6 +39,10 @@ public class TrainController extends BaseController {
 	// ---------------------------------------------
 	// Variables
 	// ---------------------------------------------
+
+	private AudioListener mAudioListener;
+
+	private AudioFireAndForgetManager mTrainSoundManager;
 
 	private Box2dGameController mBox2dGameController;
 	private GameStateController mGameStateController;
@@ -86,11 +93,23 @@ public class TrainController extends BaseController {
 		mBox2dGameController = (Box2dGameController) pCore.controllerManager().getControllerByNameRequired(Box2dGameController.CONTROLLER_NAME, entityGroupID());
 		mGameStateController = (GameStateController) lControllerManager.getControllerByNameRequired(GameStateController.CONTROLLER_NAME, entityGroupID());
 
+		final var lResourceController = (ResourceController) lControllerManager.getControllerByNameRequired(ResourceController.CONTROLLER_NAME, LintfordCore.CORE_ENTITY_GROUP_ID);
+		final var lResourceManager = lResourceController.resourceManager();
+
+		lResourceManager.audioManager().loadAudioFile("SOUND_HORN", "res/sounds/soundTrainHorn.wav", false);
+		lResourceManager.audioManager().loadAudioFile("SOUND_CRASH", "res/sounds/soundCrash.wav", false);
+
+		// TODO: This is in the wrong place but ... time
+		mAudioListener = lResourceManager.audioManager().listener();
+
+		mTrainSoundManager = new AudioFireAndForgetManager(lResourceManager.audioManager());
+		mTrainSoundManager.acquireAudioSources(4);
+
 	}
 
 	@Override
 	public void unload() {
-		// TODO Auto-generated method stub
+		mTrainSoundManager.unassign();
 
 	}
 
@@ -117,6 +136,8 @@ public class TrainController extends BaseController {
 			// FIXME:
 			if (lTrain.hasHadCollision()) {
 				if (!lTrain.wasPrisJointDestroyed() && lTrain.pullJoint() != null) {
+					mTrainSoundManager.play("SOUND_CRASH", lTrain.worldPositionX(), lTrain.worldPositionY(), 0.f, 0.f);
+
 					final var lBox2dWorld = mBox2dGameController.world();
 					lBox2dWorld.destroyJoint(lTrain.pullJoint());
 					lTrain.wasPrisJointDestroyed(true);
@@ -151,6 +172,9 @@ public class TrainController extends BaseController {
 				}
 
 			}
+
+			if (lTrain.isPlayerControlled())
+				mAudioListener.setPosition(lTrain.worldPositionX(), lTrain.worldPositionY(), 0f);
 
 			lTrain.update(pCore);
 		}
@@ -209,6 +233,8 @@ public class TrainController extends BaseController {
 		mTrainManager.activeTrains().add(lNewTrain);
 
 		sendTrainToNextDestination(lNewTrain);
+
+		mTrainSoundManager.play("SOUND_HORN", lNewTrain.worldPositionX(), lNewTrain.worldPositionY(), 0.f, 0.f);
 
 		return lNewTrain;
 	}

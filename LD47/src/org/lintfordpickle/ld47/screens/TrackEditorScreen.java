@@ -86,7 +86,7 @@ public class TrackEditorScreen extends BaseGameScreen {
 		if (!pAcceptKeyboard)
 			return;
 
-		if (pCore.input().keyboard().isKeyDownTimed(GLFW.GLFW_KEY_F5)) {
+		if (pCore.input().keyboard().isKeyDownTimed(GLFW.GLFW_KEY_F4)) {
 
 			final String lTrackFilename = "res/tracks/trackTest.json";
 			final String lSceneryFilename = "res/scenery/sceneryTest.json";

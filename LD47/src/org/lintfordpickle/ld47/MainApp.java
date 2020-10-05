@@ -8,6 +8,7 @@ import org.lintfordpickle.ld47.screens.TrackEditorScreen;
 import net.lintford.library.GameInfo;
 import net.lintford.library.controllers.core.MouseCursorController;
 import net.lintford.library.controllers.core.ResourceController;
+import net.lintford.library.controllers.music.MusicController;
 import net.lintford.library.core.LintfordCore;
 import net.lintford.library.screenmanager.IMenuAction;
 import net.lintford.library.screenmanager.Screen;
@@ -128,6 +129,13 @@ public class MainApp extends LintfordCore {
 		mResourceManager.pobjectManager().definitionRepository().loadDefinitionFromFile("Train", "res/pobjects/pobjectTrain.json", false);
 
 		mScreenManager.loadGLContent(mResourceManager);
+
+		mResourceManager.musicManager().loadMusicFromMetaFile("res/music/meta.json");
+
+		final var lControlerManager = mScreenManager.core().controllerManager();
+		new MusicController(lControlerManager, mResourceManager.musicManager(), LintfordCore.CORE_ENTITY_GROUP_ID);
+
+		// lMusic.nextSong();
 
 	}
 

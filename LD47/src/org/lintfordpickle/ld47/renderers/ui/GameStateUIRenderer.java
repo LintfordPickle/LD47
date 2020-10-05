@@ -89,6 +89,20 @@ public class GameStateUIRenderer extends UIWindow implements IProcessMouseInput 
 
 		final var lSpriteBatch = mRendererManager.uiSpriteBatch();
 
+		{
+
+			lSpriteBatch.begin(pCore.HUD());
+			final var lTrainFrontSprite = mWorldDefinition.getSpriteFrame("TEXTURETOPPANEL");
+			final float lScale = 1.5f;
+			final float lWidth = lTrainFrontSprite.width();
+			final float lHeight = lTrainFrontSprite.height();
+
+			lSpriteBatch.draw(mWorldDefinition, lTrainFrontSprite, lHudRect.centerX() - lWidth * .5f * lScale, lHudRect.top() - lHeight * .5f, lTrainFrontSprite.width() * lScale, lTrainFrontSprite.height() * lScale,
+					-0.1f, 1.f, 1.f, 1.f, 1.f);
+			lSpriteBatch.end();
+
+		}
+
 		{ // Deco
 			lSpriteBatch.begin(pCore.HUD());
 			final var lTrainFrontSprite = mWorldDefinition.getSpriteFrame("TEXTURETRAINFRONT");

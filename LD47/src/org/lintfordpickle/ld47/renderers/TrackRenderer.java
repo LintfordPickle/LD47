@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.lintford.library.core.LintfordCore;
 import net.lintford.library.core.ResourceManager;
+import net.lintford.library.core.audio.AudioFireAndForgetManager;
 import net.lintford.library.core.debug.Debug;
 import net.lintford.library.core.graphics.sprites.spritesheet.SpriteSheetDefinition;
 import net.lintford.library.core.graphics.textures.Texture;
@@ -32,6 +33,8 @@ public class TrackRenderer extends BaseRenderer implements IProcessMouseInput {
 	// ---------------------------------------------
 	// Variables
 	// ---------------------------------------------
+
+	private AudioFireAndForgetManager mTrainSoundManager;
 
 	private TrackController mTrackController;
 	private Texture mTrackTexture;
@@ -93,6 +96,11 @@ public class TrackRenderer extends BaseRenderer implements IProcessMouseInput {
 
 		mTrackBatchPCT.loadGLContent(pResourceManager);
 
+		pResourceManager.audioManager().loadAudioFile("SOUND_SIGNAL_CHANGE", "res/sounds/soundSignalChange.wav", false);
+
+		mTrainSoundManager = new AudioFireAndForgetManager(pResourceManager.audioManager());
+		mTrainSoundManager.acquireAudioSources(2);
+
 	}
 
 	@Override
@@ -101,6 +109,8 @@ public class TrackRenderer extends BaseRenderer implements IProcessMouseInput {
 
 		mTrackBatchPCT.unloadGLContent();
 		mWorldSpriteSheet = null;
+
+		mTrainSoundManager.unassign();
 
 	}
 
@@ -126,6 +136,11 @@ public class TrackRenderer extends BaseRenderer implements IProcessMouseInput {
 
 					if (lEdge != null && Vector2f.distance(lMouseWorldSpaceX, lMouseWorldSpaceY, lBoxPosX, lBoxPosY) < 10.f) {
 						lEdge.signalNode.toggleSignal();
+
+						final var lBoxWorldPositionX = lSignalNode.worldPositionX;
+						final var lBoxWorldPositionY = lSignalNode.worldPositionY;
+
+						mTrainSoundManager.play("SOUND_SIGNAL_CHANGE", lBoxWorldPositionX, lBoxWorldPositionY, 0.f, 0.f);
 
 					}
 
