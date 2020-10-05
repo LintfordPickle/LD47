@@ -185,7 +185,7 @@ public class GameScreen extends BaseGameScreen {
 		mCameraMovementController = new CameraMovementController(pControllerManager, mGameCamera, entityGroupID());
 		mCameraMovementController.setPlayArea(-1200, -800, 2400, 1600);
 		mCameraZooomController = new CameraZoomController(pControllerManager, mGameCamera, entityGroupID());
-		mCameraZooomController.setZoomConstraints(400, 900);
+		mCameraZooomController.setZoomConstraints(300, 900);
 
 	}
 
