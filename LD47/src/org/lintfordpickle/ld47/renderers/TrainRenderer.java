@@ -104,7 +104,8 @@ public class TrainRenderer extends BaseRenderer {
 
 	private void drawTrain(LintfordCore pCore, Train pTrain) {
 		final var lTextureBatch = mRendererManager.uiTextureBatch();
-		final var lTrainSpriteSrcRect = mWorldSprites.getSpriteFrame("TEXTURETRAIN00");
+		
+		final var lTrainSpriteSrcRect = pTrain.isPlayerControlled() ? mWorldSprites.getSpriteFrame("TEXTURETRAIN01") : mWorldSprites.getSpriteFrame("TEXTURETRAIN00");
 
 		final var lWorldPosX = pTrain.worldPositionX();
 		final var lWorldPosY = pTrain.worldPositionY();
@@ -115,8 +116,13 @@ public class TrainRenderer extends BaseRenderer {
 		final var lG = pTrain.hasHadCollision() ? .1f : pTrain.isPlayerControlled() ? 1.f : .94f;
 		final var lB = pTrain.hasHadCollision() ? .1f : pTrain.isPlayerControlled() ? 1.f : .94f;
 
+		final float lWidth = lTrainSpriteSrcRect.w();
+		final float lHeight = lTrainSpriteSrcRect.h();
+		
 		lTextureBatch.begin(pCore.gameCamera());
-		lTextureBatch.drawAroundCenter(mWorldTexture, lTrainSpriteSrcRect.x(), lTrainSpriteSrcRect.y(), lTrainSpriteSrcRect.w(), lTrainSpriteSrcRect.h(), lWorldPosX, lWorldPosY, 16.f, 32.f, -0.01f, lAngle, 0.f, 0.f, .5f,
+		lTextureBatch.drawAroundCenter(mWorldTexture, 
+				lTrainSpriteSrcRect.x(), lTrainSpriteSrcRect.y(), lTrainSpriteSrcRect.w(), lTrainSpriteSrcRect.h(), 
+				lWorldPosX, lWorldPosY, lWidth, lHeight, -0.01f, lAngle, 0.f, 0.f, 1.f,
 				lR, lG, lB, 1);
 		lTextureBatch.end();
 
