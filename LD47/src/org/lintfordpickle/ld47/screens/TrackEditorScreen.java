@@ -25,7 +25,7 @@ public class TrackEditorScreen extends BaseGameScreen {
 
 	// Controllers
 	private CameraMovementController mCameraMovementController;
-	private CameraZoomController mCameraZooomController;
+	private CameraZoomController mCameraZoomController;
 	private TrackEditorController mTrackEditorController;
 	private SceneryController mSceneryController;
 
@@ -114,7 +114,8 @@ public class TrackEditorScreen extends BaseGameScreen {
 	public void createControllers(ControllerManager pControllerManager) {
 		mCameraMovementController = new CameraMovementController(pControllerManager, mGameCamera, entityGroupID());
 		mCameraMovementController.setPlayArea(-1200, -800, 2400, 1600);
-		mCameraZooomController = new CameraZoomController(pControllerManager, mGameCamera, entityGroupID());
+		mCameraZoomController = new CameraZoomController(pControllerManager, mGameCamera, entityGroupID());
+		mCameraZoomController.setZoomConstraints(200, 900);
 
 		mTrackEditorController = new TrackEditorController(pControllerManager, entityGroupID());
 		mSceneryController = new SceneryController(pControllerManager, null, entityGroupID());
@@ -126,7 +127,7 @@ public class TrackEditorScreen extends BaseGameScreen {
 		mSceneryController.initialize(pCore);
 
 		mCameraMovementController.initialize(pCore);
-		mCameraZooomController.initialize(pCore);
+		mCameraZoomController.initialize(pCore);
 
 	}
 

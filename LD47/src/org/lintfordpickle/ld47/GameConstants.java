@@ -17,7 +17,7 @@ public class GameConstants {
 	public static boolean CAMERA_DEBUG_MODE = false;
 	
 	// [MainMenuScreen]
-	public static boolean ENABLE_TRACK_EDITOR_IN_MENU = false;
+	public static boolean ENABLE_TRACK_EDITOR_IN_MENU = true;
 	
 	// Sets whether enemy trains can spawn
 	// [EnemySpawnController]
