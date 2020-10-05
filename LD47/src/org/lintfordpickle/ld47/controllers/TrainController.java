@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Vector2f;
+import org.lintfordpickle.ld47.GameConstants;
 import org.lintfordpickle.ld47.data.GameWorld;
 import org.lintfordpickle.ld47.data.physicsdata.TrainPhysicsData;
 import org.lintfordpickle.ld47.data.track.Edge;
@@ -26,8 +27,6 @@ public class TrainController extends BaseController {
 	private static final float TRAIN_LENGTH_IN_PIXELS = 16.0f;
 	private static final float TRAIN_WIDTH_IN_PIXELS = 8.0f;
 
-	private static final boolean FORCE_NO_CARRIAGES_BECAUSE_BROKEN = true;
-
 	// ---------------------------------------------
 	// Variables
 	// ---------------------------------------------
@@ -39,7 +38,7 @@ public class TrainController extends BaseController {
 	private TrainManager mTrainManager;
 	private Train mMainTrain;
 
-	private List<Train> mUpdateTrainList = new ArrayList<>();
+	private final List<Train> mUpdateTrainList = new ArrayList<>();
 
 	// ---------------------------------------------
 	// Properties
@@ -159,7 +158,7 @@ public class TrainController extends BaseController {
 	}
 
 	public Train addNewTrain(int pSpawnNodeUid, int pNumCarriages) {
-		if (FORCE_NO_CARRIAGES_BECAUSE_BROKEN)
+		if (GameConstants.FORCE_NO_CARRIAGES_BECAUSE_BROKEN)
 			pNumCarriages = 0;
 
 		final var lTrack = mTrackController.track();

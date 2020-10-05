@@ -1,5 +1,7 @@
 package org.lintfordpickle.ld47.screens;
 
+import org.lintfordpickle.ld47.GameConstants;
+
 import net.lintford.library.screenmanager.MenuEntry;
 import net.lintford.library.screenmanager.MenuScreen;
 import net.lintford.library.screenmanager.ScreenManager;
@@ -36,12 +38,13 @@ public class MainMenuScreen extends MenuScreen {
 		lButtonStartEditor.registerClickListener(this, BUTTON_EDITOR);
 		lButtonEnd.registerClickListener(this, BUTTON_END);
 
-		//lButtonsLayout.menuEntries().add(lButtonStart);
-		// lButtonsLayout.menuEntries().add(lButtonStartEditor);
-		//lButtonsLayout.menuEntries().add(lButtonEnd);
+		lButtonsLayout.menuEntries().add(lButtonStart);
+		if(GameConstants.ENABLE_TRACK_EDITOR_IN_MENU)
+			lButtonsLayout.menuEntries().add(lButtonStartEditor);
+		lButtonsLayout.menuEntries().add(lButtonEnd);
 
-		mFooterLayout.menuEntries().add(lButtonStart);
-		mFooterLayout.menuEntries().add(lButtonEnd);
+//		mFooterLayout.menuEntries().add(lButtonStart);
+//		mFooterLayout.menuEntries().add(lButtonEnd);
 		layouts().add(lButtonsLayout);
 
 		mESCBackEnabled = false;

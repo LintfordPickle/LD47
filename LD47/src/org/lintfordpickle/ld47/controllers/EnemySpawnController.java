@@ -1,5 +1,7 @@
 package org.lintfordpickle.ld47.controllers;
 
+import org.lintfordpickle.ld47.GameConstants;
+
 import net.lintford.library.controllers.BaseController;
 import net.lintford.library.controllers.core.ControllerManager;
 import net.lintford.library.core.LintfordCore;
@@ -12,8 +14,6 @@ public class EnemySpawnController extends BaseController {
 	// ---------------------------------------------
 
 	private static final String CONTROLLER_NAME = "Enemy Spawn Controller";
-
-	private static boolean ENABLE_ENEMY_SPAWNING = false; // TODO: enemy spawn on
 
 	// ---------------------------------------------
 	// Variables
@@ -67,13 +67,13 @@ public class EnemySpawnController extends BaseController {
 		if (!isinitialized())
 			return;
 
-		if (!ENABLE_ENEMY_SPAWNING)
+		if (!GameConstants.ENABLE_ENEMY_SPAWNING)
 			return;
 
-		if (!GameStateController.PREVIEW_MODE && (mGameStateController.getHasWon() || mGameStateController.getHasLost()))
+		if (!GameConstants.PREVIEW_MODE && (mGameStateController.getHasWon() || mGameStateController.getHasLost()))
 			return;
 
-		// TODO: do correct timing for spawn (node based timing)
+		// TODO: Change the spawns to a node-based solution (so not all trains spawn out of the same node due to random numbers)
 
 		mEnemySpawnTimer -= pCore.gameTime().elapsedTimeMilli();
 		if (mEnemySpawnTimer < 0.0f) {
@@ -88,7 +88,7 @@ public class EnemySpawnController extends BaseController {
 
 			}
 
-			mEnemySpawnTimer = 10000.f;
+			mEnemySpawnTimer = RandomNumbers.random(GameConstants.ENEMY_SPAWN_MIN_TIME_MS, GameConstants.ENEMY_SPAWN_MAX_TIME_MS);
 
 		}
 

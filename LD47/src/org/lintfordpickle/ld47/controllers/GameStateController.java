@@ -1,5 +1,6 @@
 package org.lintfordpickle.ld47.controllers;
 
+import org.lintfordpickle.ld47.GameConstants;
 import org.lintfordpickle.ld47.data.GameState;
 
 import net.lintford.library.controllers.BaseController;
@@ -13,8 +14,6 @@ public class GameStateController extends BaseController {
 	// ---------------------------------------------
 
 	public static final String CONTROLLER_NAME = "Game State Controller";
-
-	public static boolean PREVIEW_MODE = true; // always spawn
 
 	public final static String HEALTH_5 = "TOP HEALTH";
 	public final static String HEALTH_4 = "DOING WELL";
@@ -33,13 +32,13 @@ public class GameStateController extends BaseController {
 	// ---------------------------------------------
 
 	public boolean getHasWon() {
-		if (mGameState == null || PREVIEW_MODE)
+		if (mGameState == null || GameConstants.PREVIEW_MODE)
 			return false;
 		return mGameState.timeRemaining <= 0.f;
 	}
 
 	public boolean getHasLost() {
-		if (mGameState == null || PREVIEW_MODE)
+		if (mGameState == null || GameConstants.PREVIEW_MODE)
 			return false;
 		return mGameState.playerHealth <= 0.f;
 	}

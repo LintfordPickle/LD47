@@ -1,5 +1,6 @@
 package org.lintfordpickle.ld47.controllers;
 
+import org.lintfordpickle.ld47.GameConstants;
 import org.lwjgl.glfw.GLFW;
 
 import net.lintford.library.controllers.BaseController;
@@ -138,7 +139,7 @@ public class CameraMovementController extends BaseController {
 			float lCurX = mGameCamera.getPosition().x;
 			float lCurY = mGameCamera.getPosition().y;
 
-			if (mPlayArea != null && !mPlayArea.isEmpty()) {
+			if (!GameConstants.CAMERA_DEBUG_MODE && mPlayArea != null && !mPlayArea.isEmpty()) {
 				if (lCurX < mPlayArea.left()) {
 					lCurX = mPlayArea.left();
 					mVelocity.x = 0.f;

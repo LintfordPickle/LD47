@@ -2,6 +2,7 @@ package org.lintfordpickle.ld47.screens;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
+import org.lintfordpickle.ld47.GameConstants;
 import org.lintfordpickle.ld47.controllers.Box2dGameController;
 import org.lintfordpickle.ld47.controllers.CameraMovementController;
 import org.lintfordpickle.ld47.controllers.CameraZoomController;
@@ -33,8 +34,6 @@ import net.lintford.library.screenmanager.ScreenManager;
 import net.lintford.library.screenmanager.screens.BaseGameScreen;
 
 public class GameScreen extends BaseGameScreen {
-
-	private static final boolean ENABLE_DEBUG_DRAWERS = false;
 
 	// ---------------------------------------------
 	// Variables
@@ -214,7 +213,7 @@ public class GameScreen extends BaseGameScreen {
 		mTrainRenderer = new TrainRenderer(lRendererManager, entityGroupID());
 		mTrainRenderer.initialize(pCore);
 
-		if (ENABLE_DEBUG_DRAWERS) {
+		if (GameConstants.ENABLE_BOX2D_DEBUG_DRAW) {
 			mBox2dDebugDrawer = new DebugBox2dDrawer(lRendererManager, mBox2dWorld, entityGroupID());
 			mBox2dDebugDrawer.isActive(true);
 

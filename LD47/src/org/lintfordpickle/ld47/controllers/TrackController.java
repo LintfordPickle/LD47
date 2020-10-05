@@ -15,6 +15,10 @@ public class TrackController extends BaseController {
 
 	public static final String CONTROLLER_NAME = "Track Controller";
 
+	// ---------------------------------------------
+	// Variables
+	// ---------------------------------------------
+	
 	private GameWorld mGameWorld;
 
 	// ---------------------------------------------

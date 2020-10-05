@@ -1,10 +1,13 @@
 package org.lintfordpickle.ld47.controllers;
 
+import org.lintfordpickle.ld47.GameConstants;
+
 import net.lintford.library.controllers.BaseController;
 import net.lintford.library.controllers.core.ControllerManager;
 import net.lintford.library.core.LintfordCore;
 import net.lintford.library.core.camera.Camera;
 import net.lintford.library.core.camera.ICamera;
+import net.lintford.library.core.debug.Debug;
 
 /** Controls the zoom factor of a {@link Camera} object, ensuring that only a certain amount of pixels (wide) can be displayed at any time, independent of window size. */
 public class CameraZoomController extends BaseController {
@@ -139,11 +142,17 @@ public class CameraZoomController extends BaseController {
 
 		final float lCameraWidth = mCamera.windowWidth();
 
+		if (mMinimumNumberPixelsWide == 0) {
+			Debug.debugManager().logger().e(getClass().getSimpleName(), "CameraZoomController not initialized properly (bounds not set)");
+			mMinimumNumberPixelsWide = 800;
+			return;
+
+		}
+
 		float lZoomWidthMax = lCameraWidth / mMinimumNumberPixelsWide;
 		float lZoomWidthMin = lCameraWidth / mMaximumNumberPixelsWide;
 
-		final boolean IS_CAMERA_DEBUG = false;
-		if (!IS_CAMERA_DEBUG) {
+		if (!GameConstants.CAMERA_DEBUG_MODE) {
 			// Bound check - zoom out
 			if (lZoomFactor < lZoomWidthMin) {
 				lZoomFactor = lZoomWidthMin;

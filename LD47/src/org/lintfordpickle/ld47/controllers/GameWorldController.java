@@ -12,7 +12,11 @@ public class GameWorldController extends BaseController {
 	// Constants
 	// ---------------------------------------------
 
-	public static final String CONTROLLER_NAME = "GameWorld Controller";
+	public static final String CONTROLLER_NAME = "Game World Controller";
+
+	// ---------------------------------------------
+	// Variables
+	// ---------------------------------------------
 
 	private TrainController mTrainController;
 

@@ -90,10 +90,10 @@ public class TrackEditorController extends BaseController implements IProcessMou
 		// Scenery controller
 		if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_RIGHT_ALT)) {
 			return false;
-			
+
 		}
 
-		// Toggle node enemy spawer
+		// Toggle node enemy spawner
 		if (mSelectedNodeA != null && pCore.input().keyboard().isKeyDownTimed(GLFW.GLFW_KEY_R)) {
 			if (mTrack.enemySpawnNodes.contains((Integer) mSelectedNodeA.poolUid)) {
 				mTrack.enemySpawnNodes.remove((Integer) mSelectedNodeA.poolUid);
@@ -124,12 +124,12 @@ public class TrackEditorController extends BaseController implements IProcessMou
 		if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_DELETE) && pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)) {
 			mTrack.nodes.clear();
 			mTrack.edges.clear();
-			
+
 			mTempEdgeList.clear();
 
 			mSelectedNodeA = null;
 			mSelectedNodeB = null;
-			
+
 			mTrack.enemySpawnNodes.clear();
 
 			mTrack.reset();
@@ -268,6 +268,17 @@ public class TrackEditorController extends BaseController implements IProcessMou
 				if (Vector2f.distance(lMouseWorldSpaceX, lMouseWorldSpaceY, lNode.worldPositionX, lNode.worldPositionY) < 4.f) {
 					if (mSelectedNodeA == null) {
 						mSelectedNodeA = lNode;
+
+						final int lEdgeCount = mSelectedNodeA.numberConnectedEdges();
+						for (int j = 0; j < lEdgeCount; j++) {
+							final var lEdge = mSelectedNodeA.getEdgeByIndex(j);
+							if(lEdge == null) {
+								System.out.println(mSelectedNodeA.poolUid + ":: NULL EDGE");
+							}else {
+								System.out.println(mSelectedNodeA.poolUid + ":: Edge found Index : " + j +" Uid: " + lEdge.uid);
+							}
+							
+						}
 
 						if (mSelectedNodeA.numberConnectedEdges() > 0)
 							edgeLocalIndex = 0;
