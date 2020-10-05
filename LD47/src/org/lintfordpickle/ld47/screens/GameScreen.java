@@ -106,7 +106,7 @@ public class GameScreen extends BaseGameScreen {
 		lTestTrack = TrackLoader.createPhysicsObjects(lTestTrack, lControllerManager, entityGroupID());
 
 		mGameWorldController.startNewGame();
-		mGameState.startNewGame(20000);
+		mGameState.startNewGame(300000); // 300000 ms = 5 mins
 
 		createRenderers(lCore);
 
