@@ -24,6 +24,12 @@ public class Edge extends BaseInstanceData {
 		public int rightEdgeUid = -1;
 		public int signalNodeUid = -1;
 		public boolean leftEnabled;
+		public float signalLampOffsetX = 0.f;
+		public float signalLampOffsetY = 0.f;
+		
+		// TODO: Clickable part 
+		public float signalBoxOffsetX = 0.f;
+		public float signalBoxOffsetY = 0.f;
 
 		public void reset() {
 			isSignalActive = false;

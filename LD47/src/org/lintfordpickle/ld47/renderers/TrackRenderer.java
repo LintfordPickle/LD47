@@ -27,6 +27,8 @@ public class TrackRenderer extends BaseRenderer implements IProcessMouseInput {
 
 	public static final String RENDERER_NAME = "Track Renderer";
 
+	private static final Vec2 TempTrackVec2 = new Vec2();
+
 	// ---------------------------------------------
 	// Variables
 	// ---------------------------------------------
@@ -111,21 +113,26 @@ public class TrackRenderer extends BaseRenderer implements IProcessMouseInput {
 
 		if (pCore.input().mouse().isMouseLeftButtonDownTimed(this)) {
 			final var lTrack = mTrackController.track();
-			final int lNodeCount = lTrack.nodes.size();
-			for (int i = 0; i < lNodeCount; i++) {
-				final var lNode = lTrack.nodes.get(i);
 
-				if (lNode != null && Vector2f.distance(lMouseWorldSpaceX, lMouseWorldSpaceY, lNode.worldPositionX, lNode.worldPositionY) < 6.f) {
-					final int lEdgeCount = lNode.numberConnectedEdges();
-					for (int j = 0; j < lEdgeCount; j++) {
-						if(lNode.getEdgeByIndex(j) == null) continue;
-						if (lNode.getEdgeByIndex(j).signalNode.isSignalActive) {
-							lNode.getEdgeByIndex(j).signalNode.toggleSignal();
-						}
+			final int lEdgeCount = lTrack.edges.size();
+
+			for (int i = 0; i < lEdgeCount; i++) {
+				final var lEdge = lTrack.edges.get(i);
+				if (lEdge != null && lEdge.signalNode != null && lEdge.signalNode.isSignalActive) {
+					final var lSignalNode = lTrack.getNodeByUid(lEdge.signalNode.signalNodeUid);
+
+					final var lBoxPosX = lSignalNode.worldPositionX + lEdge.signalNode.signalBoxOffsetX;
+					final var lBoxPosY = lSignalNode.worldPositionY + lEdge.signalNode.signalBoxOffsetY;
+
+					if (lEdge != null && Vector2f.distance(lMouseWorldSpaceX, lMouseWorldSpaceY, lBoxPosX, lBoxPosY) < 10.f) {
+						lEdge.signalNode.toggleSignal();
+
 					}
+
 				}
 
 			}
+
 		}
 
 		return super.handleInput(pCore);
@@ -184,7 +191,7 @@ public class TrackRenderer extends BaseRenderer implements IProcessMouseInput {
 		// Variable seg length
 		final float lPosX = pTrackNodeA.worldPositionX;
 		final float lPosY = pTrackNodeA.worldPositionY;
-		final float lPosW = 8.f;
+		final float lPosW = 16.f;
 		final float lPosH = lSegmentLength;
 
 		final float lSrcX = 0;
@@ -210,14 +217,52 @@ public class TrackRenderer extends BaseRenderer implements IProcessMouseInput {
 		final float lVectorX = lOtherNode.worldPositionX - lActiveNode.worldPositionX;
 		final float lVectorY = lOtherNode.worldPositionY - lActiveNode.worldPositionY;
 
-		Vec2 ll = new Vec2(lVectorX, lVectorY);
-		ll.normalize();
+		TempTrackVec2.set(lVectorX, lVectorY);
+		TempTrackVec2.normalize();
 
 		final var lWorldTexture = mWorldSpriteSheet.texture();
-		final var lSignalBounds = lIsLeftSignalActive ? mWorldSpriteSheet.getSpriteFrame("TEXTURESIGNALLEFT") : mWorldSpriteSheet.getSpriteFrame("TEXTURESIGNALRIGHT");
-		pTextureBatch.draw(lWorldTexture, lSignalBounds, lActiveNode.worldPositionX - 8.f, lActiveNode.worldPositionY - 16.f, 16.f, 16.f, -0.1f, 1, 1, 1, 1);
 
-		// Debug.debugManager().drawers().drawCircleImmediate(pCore.gameCamera(), lActiveNode.worldPositionX + ll.x * 20.f, lActiveNode.worldPositionY + ll.y * 20.f, 4.f);
+		final var lSignalArrow = mWorldSpriteSheet.getSpriteFrame("TEXTURESIGNALARROW");
+		final var lSignalArrowAngle = (float) Math.atan2(TempTrackVec2.y, TempTrackVec2.x) + (float) Math.toRadians(90.f);
+
+		{
+
+			final float lSrcX = lSignalArrow.x();
+			final float lSrcY = lSignalArrow.y();
+			final float lSrcW = lSignalArrow.w();
+			final float lSrcH = lSignalArrow.h();
+
+			pTextureBatch.drawAroundCenter(lWorldTexture, lSrcX, lSrcY, lSrcW, lSrcH, lActiveNode.worldPositionX, lActiveNode.worldPositionY, lSrcW, lSrcH, -0.1f, lSignalArrowAngle, .0f, lSrcH * .5f, 1.f, 1, 1, 1, 1);
+		}
+
+		{ // signal lamp
+
+			final float lLampOffsetX = pActiveEdge.signalNode.signalLampOffsetX;
+			final float lLampOffsetY = pActiveEdge.signalNode.signalLampOffsetY;
+
+			final var lSignalBounds = lIsLeftSignalActive ? mWorldSpriteSheet.getSpriteFrame("TEXTURESIGNALLEFT") : mWorldSpriteSheet.getSpriteFrame("TEXTURESIGNALRIGHT");
+
+			final float lLampWidth = lSignalBounds.width();
+			final float lLampHeight = lSignalBounds.height();
+
+			pTextureBatch.draw(lWorldTexture, lSignalBounds, lActiveNode.worldPositionX - 16.f + lLampOffsetX, lActiveNode.worldPositionY - 32.f + lLampOffsetY, lLampWidth, lLampHeight, -0.1f, 1, 1, 1, 1);
+
+		}
+
+		{ // signal box (clickable bit)
+
+			final float lBoxOffsetX = pActiveEdge.signalNode.signalBoxOffsetX;
+			final float lBoxOffsetY = pActiveEdge.signalNode.signalBoxOffsetY;
+
+			final var lSignalBounds = mWorldSpriteSheet.getSpriteFrame("TEXTURESIGNALBOX");
+
+			final float lBoxWidth = lSignalBounds.width();
+			final float lBoxHeight = lSignalBounds.height();
+
+			pTextureBatch.draw(lWorldTexture, lSignalBounds, lActiveNode.worldPositionX - lBoxWidth * .5f + lBoxOffsetX, lActiveNode.worldPositionY - lBoxHeight * .5f + lBoxOffsetY, lBoxWidth, lBoxHeight, -0.1f, 1, 1, 1,
+					1);
+
+		}
 
 	}
 

@@ -98,7 +98,7 @@ public class TrackEditorRenderer extends BaseRenderer {
 
 		final var lTrack = mTrackEditorController.track();
 		drawTrack(pCore, lTrack);
-		
+
 		drawEdges(pCore);
 		drawNodes(pCore);
 
@@ -296,7 +296,7 @@ public class TrackEditorRenderer extends BaseRenderer {
 	}
 
 	// ------------------------
-	
+
 	private void drawTrack(LintfordCore pCore, Track pTrack) {
 		final var lEdgeList = pTrack.edges;
 
@@ -336,7 +336,7 @@ public class TrackEditorRenderer extends BaseRenderer {
 		// Variable seg length
 		final float lPosX = pTrackNodeA.worldPositionX;
 		final float lPosY = pTrackNodeA.worldPositionY;
-		final float lPosW = 8.f;
+		final float lPosW = 16.f;
 		final float lPosH = lSegmentLength;
 
 		final float lSrcX = 0;
@@ -357,23 +357,36 @@ public class TrackEditorRenderer extends BaseRenderer {
 		final int pCommonNodeUid = Edge.getCommonNodeUid(pActiveEdge, lActiveEdge);
 
 		final var lActiveNode = pTrack.getNodeByUid(pCommonNodeUid);
-		final var lOtherNodeUid = lActiveEdge.getOtherNodeUid(lActiveNode.poolUid);
-		final var lOtherNode = pTrack.getNodeByUid(lOtherNodeUid);
-		final float lVectorX = lOtherNode.worldPositionX - lActiveNode.worldPositionX;
-		final float lVectorY = lOtherNode.worldPositionY - lActiveNode.worldPositionY;
-
-		Vec2 ll = new Vec2(lVectorX, lVectorY);
-		ll.normalize();
 
 		final var lWorldTexture = mWorldSpriteSheet.texture();
-		final var lSignalBounds = lIsLeftSignalActive ? mWorldSpriteSheet.getSpriteFrame("TEXTURESIGNALLEFT") : mWorldSpriteSheet.getSpriteFrame("TEXTURESIGNALRIGHT");
-		pTextureBatch.draw(lWorldTexture, lSignalBounds, lActiveNode.worldPositionX - 8.f, lActiveNode.worldPositionY - 16.f, 16.f, 16.f, -0.1f, 1, 1, 1, 1);
 
-		// Debug.debugManager().drawers().drawCircleImmediate(pCore.gameCamera(), lActiveNode.worldPositionX + ll.x * 20.f, lActiveNode.worldPositionY + ll.y * 20.f, 4.f);
+		{ // signal post
+
+			final var lSignalBounds = lIsLeftSignalActive ? mWorldSpriteSheet.getSpriteFrame("TEXTURESIGNALLEFT") : mWorldSpriteSheet.getSpriteFrame("TEXTURESIGNALRIGHT");
+
+			final float lLampOffsetX = pActiveEdge.signalNode.signalLampOffsetX;
+			final float lLampOffsetY = pActiveEdge.signalNode.signalLampOffsetY;
+
+			final float lWidth = lSignalBounds.width();
+			final float lHeight = lSignalBounds.height();
+
+			pTextureBatch.draw(lWorldTexture, lSignalBounds, lActiveNode.worldPositionX - lWidth * .5f + lLampOffsetX, lActiveNode.worldPositionY - lHeight + lLampOffsetY, lWidth, lHeight, -0.1f, 1, 1, 1, 1);
+		}
+
+		{ // signal box
+
+			final var lSignalBox = mWorldSpriteSheet.getSpriteFrame("TEXTURESIGNALBOX");
+
+			final float lBoxOffsetX = pActiveEdge.signalNode.signalBoxOffsetX;
+			final float lBoxOffsetY = pActiveEdge.signalNode.signalBoxOffsetY;
+
+			final float lWidth = lSignalBox.width();
+			final float lHeight = lSignalBox.height();
+
+			pTextureBatch.draw(lWorldTexture, lSignalBox, lActiveNode.worldPositionX - lWidth * .5f + lBoxOffsetX, lActiveNode.worldPositionY - lHeight * .5f + lBoxOffsetY, lWidth, lHeight, -0.1f, 1, 1, 1, 1);
+
+		}
 
 	}
 
-	
-	
-	
 }

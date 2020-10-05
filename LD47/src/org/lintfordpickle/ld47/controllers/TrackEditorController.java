@@ -93,6 +93,11 @@ public class TrackEditorController extends BaseController implements IProcessMou
 
 		}
 
+		boolean isLeftMouseDown = pCore.input().mouse().isMouseLeftButtonDownTimed(this);
+
+		final float lMouseWorldSpaceX = pCore.gameCamera().getMouseWorldSpaceX();
+		final float lMouseWorldSpaceY = pCore.gameCamera().getMouseWorldSpaceY();
+
 		// Toggle node enemy spawner
 		if (mSelectedNodeA != null && pCore.input().keyboard().isKeyDownTimed(GLFW.GLFW_KEY_R)) {
 			if (mTrack.enemySpawnNodes.contains((Integer) mSelectedNodeA.poolUid)) {
@@ -104,11 +109,10 @@ public class TrackEditorController extends BaseController implements IProcessMou
 			}
 		}
 
-		// Toggle create signal
+		// Create signal
 		if (mSelectedNodeA != null && edgeLocalIndex != -1) {
+			final var lEdge = mSelectedNodeA.getEdgeByIndex(edgeLocalIndex);
 			if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_U)) {
-				final var lEdge = mSelectedNodeA.getEdgeByIndex(edgeLocalIndex);
-
 				if (mSelectedNodeA.numberConnectedEdges() == 3) {
 					final int lEdgeUid0 = mSelectedNodeA.getOtherEdgeConnectionUids(lEdge.uid);
 					final int lEdgeUid1 = mSelectedNodeA.getOtherEdgeConnectionUids2(lEdge.uid);
@@ -119,8 +123,6 @@ public class TrackEditorController extends BaseController implements IProcessMou
 				}
 
 			} else if (pCore.input().keyboard().isKeyDownTimed(GLFW.GLFW_KEY_Z)) { // toggle left / right edges on signal
-				final var lEdge = mSelectedNodeA.getEdgeByIndex(edgeLocalIndex);
-
 				if (lEdge != null && lEdge.signalNode != null && lEdge.signalNode.isSignalActive) {
 					int lLeftEdgeUid = lEdge.signalNode.leftEdgeUid;
 					lEdge.signalNode.leftEdgeUid = lEdge.signalNode.rightEdgeUid;
@@ -128,6 +130,28 @@ public class TrackEditorController extends BaseController implements IProcessMou
 
 				} else {
 					lEdge.signalNode.reset();
+				}
+
+			}
+
+			// Change offset position of the lamp and box
+			if (lEdge != null && lEdge.signalNode != null && lEdge.signalNode.isSignalActive) {
+				if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_I)) {
+					if (pCore.input().mouse().isMouseLeftButtonDown()) {
+						lEdge.signalNode.signalLampOffsetX = lMouseWorldSpaceX - mSelectedNodeA.worldPositionX;
+						lEdge.signalNode.signalLampOffsetY = lMouseWorldSpaceY - mSelectedNodeA.worldPositionY;
+						return true;
+					}
+
+				}
+				
+				if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_B)) {
+					if (pCore.input().mouse().isMouseLeftButtonDown()) {
+						lEdge.signalNode.signalBoxOffsetX = lMouseWorldSpaceX - mSelectedNodeA.worldPositionX;
+						lEdge.signalNode.signalBoxOffsetY = lMouseWorldSpaceY - mSelectedNodeA.worldPositionY;
+						return true;
+					}
+
 				}
 
 			}
@@ -149,11 +173,6 @@ public class TrackEditorController extends BaseController implements IProcessMou
 
 			return true;
 		}
-
-		boolean isLeftMouseDown = pCore.input().mouse().isMouseLeftButtonDownTimed(this);
-
-		final float lMouseWorldSpaceX = pCore.gameCamera().getMouseWorldSpaceX();
-		final float lMouseWorldSpaceY = pCore.gameCamera().getMouseWorldSpaceY();
 
 		if (mIsInMovementMode && isLeftMouseDown) {
 			if (mSelectedNodeA != null) {
