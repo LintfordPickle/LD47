@@ -3,7 +3,8 @@
 	"allowSleep" : true,
 	"autoClearForces" : true,
 	"body" : 
-	[		
+	[
+		
 		{
 			"angle" : 0,
 			"angularVelocity" : 0,
@@ -13,25 +14,9 @@
 			[
 				
 				{
-					"density" : 0.01,
-					"friction" : 0.1,
-					"name" : "SensorFixture",
-					"polygon" : 
-					{
-						"vertices" : 
-						{
-							"x" : [ 0.03, 0.03, -0.1992882490158081, -0.1992882490158081 ],
-							"y" : [ -0.25, 0.25, 0.25, -0.25 ]
-						}
-					},
-					"restitution" : 0.1,
-					"sensor" : true
-				},
-				
-				{
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "MainBody",
+					"name" : "SensorFixture",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -40,7 +25,22 @@
 							"y" : [ -0.25, 0.25, 0.25, -0.25 ]
 						}
 					},
-					"sensor" : false
+					"sensor" : true
+				},
+				
+				{
+					"density" : 0.01,
+					"friction" : 0.1,
+					"name" : "MainBody",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : [ 0.03, 0.03, -0.1992882490158081, -0.1992882490158081 ],
+							"y" : [ -0.25, 0.25, 0.25, -0.25 ]
+						}
+					},
+					"restitution" : 0.1
 				}
 			],
 			"linearVelocity" : 0,
@@ -53,6 +53,37 @@
 			"massData-mass" : 0.5011464357376099,
 			"name" : "MainBody",
 			"position" : 0,
+			"type" : 2
+		},
+		
+		{
+			"angle" : 0,
+			"angularVelocity" : 0,
+			"awake" : true,
+			"bullet" : true,
+			"linearVelocity" : 0,
+			"massData-mass" : 1,
+			"name" : "CarriageLocation",
+			"position" : 
+			{
+				"x" : -1.199983477592468,
+				"y" : 0
+			},
+			"type" : 2
+		},
+		
+		{
+			"angle" : 0,
+			"angularVelocity" : 0,
+			"awake" : true,
+			"linearVelocity" : 0,
+			"massData-mass" : 1,
+			"name" : "carriageAnchor",
+			"position" : 
+			{
+				"x" : -0.3990530967712402,
+				"y" : -0.001721506356261671
+			},
 			"type" : 2
 		}
 	],
