@@ -110,6 +110,9 @@ public class GameScreen extends BaseGameScreen {
 
 		createRenderers(lCore);
 
+		final var lPlayerTrain = mTrainController.mainTrain();
+		mCameraMovementController.setFollowTrain(lPlayerTrain);
+
 	}
 
 	@Override
@@ -184,6 +187,7 @@ public class GameScreen extends BaseGameScreen {
 
 		mCameraMovementController = new CameraMovementController(pControllerManager, mGameCamera, entityGroupID());
 		mCameraMovementController.setPlayArea(-1200, -800, 2400, 1600);
+
 		mCameraZooomController = new CameraZoomController(pControllerManager, mGameCamera, entityGroupID());
 		mCameraZooomController.setZoomConstraints(300, 900);
 

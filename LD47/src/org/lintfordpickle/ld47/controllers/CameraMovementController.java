@@ -1,6 +1,7 @@
 package org.lintfordpickle.ld47.controllers;
 
 import org.lintfordpickle.ld47.GameConstants;
+import org.lintfordpickle.ld47.data.train.Train;
 import org.lwjgl.glfw.GLFW;
 
 import net.lintford.library.controllers.BaseController;
@@ -18,7 +19,7 @@ public class CameraMovementController extends BaseController {
 
 	public static final String CONTROLLER_NAME = "Camera Movement Controller";
 
-	private static final float CAMERA_MAN_MOVE_SPEED = 5.f;
+	private static final float CAMERA_MAN_MOVE_SPEED = 40.f;
 	private static final float CAMERA_MAN_MOVE_SPEED_MAX = 10f;
 
 	// ---------------------------------------------
@@ -28,10 +29,20 @@ public class CameraMovementController extends BaseController {
 	private Rectangle mPlayArea;
 	private ICamera mGameCamera;
 	private Vector2f mVelocity;
+	private Train mFollowTrain;
 
 	// ---------------------------------------------
 	// Properties
 	// ---------------------------------------------
+
+	public boolean isFollowingTrain() {
+		return mFollowTrain != null;
+	}
+
+	public void setFollowTrain(Train pFollowTrain) {
+		mFollowTrain = pFollowTrain;
+
+	}
 
 	public Rectangle playArea() {
 		return mPlayArea;
@@ -85,31 +96,34 @@ public class CameraMovementController extends BaseController {
 		if (mGameCamera == null)
 			return false;
 
-		if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL))
-			return false; // editor controls
-
 		final float lElapsed = (float) pCore.appTime().elapsedTimeMilli() * 0.001f;
 		final float lOneOverCameraZoom = mGameCamera.getZoomFactorOverOne();
 		final float speed = CAMERA_MAN_MOVE_SPEED * lOneOverCameraZoom;
 
-		// Just listener for clicks - couldn't be easier !!?!
+		if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL))
+			return false; // editor controls
+
 		if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_A)) {
 			mVelocity.x += speed * lElapsed;
+			mFollowTrain = null; // stop auto follow
 
 		}
 
 		if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_D)) {
 			mVelocity.x -= speed * lElapsed;
+			mFollowTrain = null; // stop auto follow
 
 		}
 
 		if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_S)) {
 			mVelocity.y -= speed * lElapsed;
+			mFollowTrain = null; // stop auto follow
 
 		}
 
 		if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_W)) {
 			mVelocity.y += speed * lElapsed;
+			mFollowTrain = null; // stop auto follow
 
 		}
 
@@ -122,7 +136,10 @@ public class CameraMovementController extends BaseController {
 		if (mGameCamera == null)
 			return;
 
-		{
+		if (mFollowTrain != null) {
+			mGameCamera.setPosition(-mFollowTrain.worldPositionX(), -mFollowTrain.worldPositionY());
+
+		} else {
 			// Cap
 			if (mVelocity.x < -CAMERA_MAN_MOVE_SPEED_MAX)
 				mVelocity.x = -CAMERA_MAN_MOVE_SPEED_MAX;
