@@ -259,7 +259,7 @@ public class TrainController extends BaseController {
 		}
 
 		// pTrain.setLocation(lCurrentNode);
-		final var lForce = pTrain.getForce();
+		final var lForce = 50.f;//pTrain.getForce();
 		final var lSpeed = pTrain.getSpeed();
 
 		final var lPullJoint = mBox2dGameController.getPrismaticJointToNode(pTrain, lDestinationNode, lForce, lSpeed);
