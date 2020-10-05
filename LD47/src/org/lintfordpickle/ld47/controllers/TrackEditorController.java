@@ -104,7 +104,7 @@ public class TrackEditorController extends BaseController implements IProcessMou
 			}
 		}
 
-		// Toggle signal
+		// Toggle create signal
 		if (mSelectedNodeA != null && edgeLocalIndex != -1) {
 			if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_U)) {
 				final var lEdge = mSelectedNodeA.getEdgeByIndex(edgeLocalIndex);
@@ -118,7 +118,20 @@ public class TrackEditorController extends BaseController implements IProcessMou
 					lEdge.signalNode.reset();
 				}
 
+			} else if (pCore.input().keyboard().isKeyDownTimed(GLFW.GLFW_KEY_Z)) { // toggle left / right edges on signal
+				final var lEdge = mSelectedNodeA.getEdgeByIndex(edgeLocalIndex);
+
+				if (lEdge != null && lEdge.signalNode != null && lEdge.signalNode.isSignalActive) {
+					int lLeftEdgeUid = lEdge.signalNode.leftEdgeUid;
+					lEdge.signalNode.leftEdgeUid = lEdge.signalNode.rightEdgeUid;
+					lEdge.signalNode.rightEdgeUid = lLeftEdgeUid;
+
+				} else {
+					lEdge.signalNode.reset();
+				}
+
 			}
+
 		}
 
 		if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_DELETE) && pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)) {
@@ -272,12 +285,12 @@ public class TrackEditorController extends BaseController implements IProcessMou
 						final int lEdgeCount = mSelectedNodeA.numberConnectedEdges();
 						for (int j = 0; j < lEdgeCount; j++) {
 							final var lEdge = mSelectedNodeA.getEdgeByIndex(j);
-							if(lEdge == null) {
+							if (lEdge == null) {
 								System.out.println(mSelectedNodeA.poolUid + ":: NULL EDGE");
-							}else {
-								System.out.println(mSelectedNodeA.poolUid + ":: Edge found Index : " + j +" Uid: " + lEdge.uid);
+							} else {
+								System.out.println(mSelectedNodeA.poolUid + ":: Edge found Index : " + j + " Uid: " + lEdge.uid);
 							}
-							
+
 						}
 
 						if (mSelectedNodeA.numberConnectedEdges() > 0)

@@ -202,21 +202,43 @@ public class TrackEditorRenderer extends BaseRenderer {
 			}
 
 			if (lEdge.signalNode != null && lEdge.signalNode.isSignalActive) {
-				final var lActiveEdgeUid = lEdge.signalNode.leftEnabled ? lEdge.signalNode.leftEdgeUid : lEdge.signalNode.rightEdgeUid;
-				final var lActiveEdge = lTrack.getEdgeByUid(lActiveEdgeUid);
 
-				final int pCommonNodeUid = Edge.getCommonNodeUid(lEdge, lActiveEdge);
+				{
+					final var lLeftEdgeUid = lEdge.signalNode.leftEdgeUid;
+					final var lLeftEdge = lTrack.getEdgeByUid(lLeftEdgeUid);
 
-				final var lActiveNode = lTrack.getNodeByUid(pCommonNodeUid);
-				final var lOtherNodeUid = lActiveEdge.getOtherNodeUid(lActiveNode.poolUid);
-				final var lOtherNode = lTrack.getNodeByUid(lOtherNodeUid);
-				final float lVectorX = lOtherNode.worldPositionX - lActiveNode.worldPositionX;
-				final float lVectorY = lOtherNode.worldPositionY - lActiveNode.worldPositionY;
+					final int pCommonNodeUid = Edge.getCommonNodeUid(lEdge, lLeftEdge);
 
-				Vec2 ll = new Vec2(lVectorX, lVectorY);
-				ll.normalize();
+					final var lActiveNode = lTrack.getNodeByUid(pCommonNodeUid);
+					final var lOtherNodeUid = lLeftEdge.getOtherNodeUid(lActiveNode.poolUid);
+					final var lOtherNode = lTrack.getNodeByUid(lOtherNodeUid);
+					final float lVectorX = lOtherNode.worldPositionX - lActiveNode.worldPositionX;
+					final float lVectorY = lOtherNode.worldPositionY - lActiveNode.worldPositionY;
 
-				Debug.debugManager().drawers().drawCircleImmediate(pCore.gameCamera(), lActiveNode.worldPositionX + ll.x * 20.f, lActiveNode.worldPositionY + ll.y * 20.f, 4.f);
+					Vec2 ll = new Vec2(lVectorX, lVectorY);
+					ll.normalize();
+
+					Debug.debugManager().drawers().drawCircleImmediate(pCore.gameCamera(), lActiveNode.worldPositionX + ll.x * 20.f, lActiveNode.worldPositionY + ll.y * 20.f, 5.f);
+				}
+
+				{
+					final var lRightEdgeUid = lEdge.signalNode.rightEdgeUid;
+					final var lRightEdge = lTrack.getEdgeByUid(lRightEdgeUid);
+
+					final int pCommonNodeUid = Edge.getCommonNodeUid(lEdge, lRightEdge);
+
+					final var lActiveNode = lTrack.getNodeByUid(pCommonNodeUid);
+					final var lOtherNodeUid = lRightEdge.getOtherNodeUid(lActiveNode.poolUid);
+					final var lOtherNode = lTrack.getNodeByUid(lOtherNodeUid);
+					final float lVectorX = lOtherNode.worldPositionX - lActiveNode.worldPositionX;
+					final float lVectorY = lOtherNode.worldPositionY - lActiveNode.worldPositionY;
+
+					Vec2 ll = new Vec2(lVectorX, lVectorY);
+					ll.normalize();
+
+					Debug.debugManager().drawers().drawCircleImmediate(pCore.gameCamera(), lActiveNode.worldPositionX + ll.x * 20.f, lActiveNode.worldPositionY + ll.y * 20.f, 3.f);
+				}
+
 			}
 
 		}
