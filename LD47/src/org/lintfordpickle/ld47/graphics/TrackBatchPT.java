@@ -247,7 +247,7 @@ public class TrackBatchPT {
 		float originX = -pROX;
 		float originY = -pROY;
 
-		final float originalSegmentSize = 16.f; // :(
+		final float originalSegmentSize = 32.f; // :(
 		float lVScale = pSegmentLength / originalSegmentSize;
 		
 		// Vertex 0 (bottom left)
