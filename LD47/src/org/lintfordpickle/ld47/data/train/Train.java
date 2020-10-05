@@ -209,8 +209,6 @@ public class Train extends PooledBaseData {
 			return;
 		mDestinationNode = pNode;
 
-		System.out.println("Setting train X position to " + pNode.worldPositionX);
-
 		mWorldPositionX = pNode.worldPositionX;
 		mWorldPositionY = pNode.worldPositionY;
 

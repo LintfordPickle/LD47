@@ -79,7 +79,6 @@ public class EnemySpawnController extends BaseController {
 		if (mEnemySpawnTimer < 0.0f) {
 			final var lTrack = mTrackController.track();
 			if (lTrack.enemySpawnNodes.size() > 0) {
-				System.out.println("SPAWNING NEW ENEMY");
 				final var lSpawnNodeUid = lTrack.enemySpawnNodes.get(RandomNumbers.random(0, lTrack.enemySpawnNodes.size()));
 				mTrainController.addNewTrain(lSpawnNodeUid, 0);
 

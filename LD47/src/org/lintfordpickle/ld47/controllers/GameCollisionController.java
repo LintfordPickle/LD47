@@ -87,7 +87,6 @@ public class GameCollisionController extends Box2dContactController {
 				pContact.setEnabled(false);
 
 			} else if (pContact.getFixtureB().getBody().getUserData() instanceof TrainPhysicsData) {
-				System.out.println("TRAIN COLISION A");
 				trainCollisionTrain(pContact, pContact.getFixtureA(), pContact.getFixtureB(), false);
 
 			}
@@ -98,7 +97,6 @@ public class GameCollisionController extends Box2dContactController {
 				pContact.setEnabled(false);
 
 			} else if (pContact.getFixtureA().getBody().getUserData() instanceof TrainPhysicsData) {
-				System.out.println("TRAIN COLISION B");
 				trainCollisionTrain(pContact, pContact.getFixtureA(), pContact.getFixtureA(), false);
 
 			}
@@ -115,7 +113,7 @@ public class GameCollisionController extends Box2dContactController {
 //			trainCollisionTrain(pContact, pTrainFixture, pOtherFixture, pCollides);
 //
 //		} else 
-			if (pOtherFixture.getBody().getUserData() instanceof NodePhysicsData) {
+		if (pOtherFixture.getBody().getUserData() instanceof NodePhysicsData) {
 			trainCollisionNode(pContact, pTrainFixture, pOtherFixture, pCollides);
 
 		}
@@ -133,17 +131,19 @@ public class GameCollisionController extends Box2dContactController {
 
 			final var lBodyA = pContact.getFixtureA().getBody();
 			var lJointList = lBodyA.getJointList();
-			System.out.println("     a");
+
 			while (lJointList != null) {
 				mWorld.destroyJoint(lJointList.joint);
 				lJointList = lJointList.next;
-				System.out.println("     b");
 			}
 
 			pContact.getFixtureA().getBody().setLinearDamping(.96f);
 
 		} else {
-			mGameStateController.gameState().playerHealth--;
+			if (!lTrainBData.train().hasHadCollision()) {
+				mGameStateController.gameState().playerHealth--;
+
+			}
 		}
 
 		if (!lTrainBData.train().isPlayerControlled()) {
@@ -151,19 +151,19 @@ public class GameCollisionController extends Box2dContactController {
 
 			final var lBodyB = pContact.getFixtureB().getBody();
 			var lJointList = lBodyB.getJointList();
-			System.out.println("     a");
 			while (lJointList != null) {
 				mWorld.destroyJoint(lJointList.joint);
 				lJointList = lJointList.next;
-				
-				System.out.println("     b");
 
 			}
 
 			pContact.getFixtureB().getBody().setLinearDamping(.96f);
 
 		} else {
-			mGameStateController.gameState().playerHealth--;
+			if (!lTrainAData.train().hasHadCollision()) {
+				mGameStateController.gameState().playerHealth--;
+
+			}
 		}
 
 		if (!collisionWithPLayer) {
