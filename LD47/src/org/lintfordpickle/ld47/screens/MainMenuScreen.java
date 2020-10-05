@@ -35,12 +35,18 @@ public class MainMenuScreen extends MenuScreen {
 		MenuEntry lButtonStartEditor = new MenuEntry(mScreenManager, lButtonsLayout, "Track Editor");
 		MenuEntry lButtonEnd = new MenuEntry(mScreenManager, lButtonsLayout, "Exit");
 
+		MenuEntry lSeparator = new MenuEntry(mScreenManager, lButtonsLayout, "");
+		lSeparator.active(false);
+		lSeparator.enabled(false);
+		
 		// register clicks
 		lButtonStart.registerClickListener(this, BUTTON_START);
 		lButtonTutorial.registerClickListener(this, BUTTON_TUTORIAL);
 		lButtonStartEditor.registerClickListener(this, BUTTON_EDITOR);
 		lButtonEnd.registerClickListener(this, BUTTON_END);
 
+		lButtonsLayout.menuEntries().add(lSeparator);
+		lButtonsLayout.menuEntries().add(lSeparator);
 		lButtonsLayout.menuEntries().add(lButtonStart);
 		lButtonsLayout.menuEntries().add(lButtonTutorial);
 		if (GameConstants.ENABLE_TRACK_EDITOR_IN_MENU)

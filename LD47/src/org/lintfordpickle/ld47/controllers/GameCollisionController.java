@@ -124,6 +124,11 @@ public class GameCollisionController extends Box2dContactController {
 		final var lTrainAData = (TrainPhysicsData) pContact.getFixtureA().getBody().getUserData();
 		final var lTrainBData = (TrainPhysicsData) pContact.getFixtureB().getBody().getUserData();
 
+//		if (lTrainAData.train().trainNumber() == lTrainBData.train().trainNumber()) {
+//			pContact.setEnabled(false);
+//			return;
+//		}
+
 		boolean collisionWithPLayer = false;
 
 		if (!lTrainAData.train().isPlayerControlled()) {

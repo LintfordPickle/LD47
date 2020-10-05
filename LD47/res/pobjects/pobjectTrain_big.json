@@ -9,21 +9,6 @@
 			"angle" : 0,
 			"angularVelocity" : 0,
 			"awake" : true,
-			"linearVelocity" : 0,
-			"massData-mass" : 1,
-			"name" : "carriageAnchorFront",
-			"position" : 
-			{
-				"x" : 0.85,
-				"y" : 0
-			},
-			"type" : 2
-		},
-		
-		{
-			"angle" : 0,
-			"angularVelocity" : 0,
-			"awake" : true,
 			"bullet" : true,
 			"fixture" : 
 			[
@@ -87,7 +72,7 @@
 			"name" : "CarriageLocation",
 			"position" : 
 			{
-				"x" : -2.196804523468018,
+				"x" : -1.199983477592468,
 				"y" : 0
 			},
 			"type" : 2
@@ -99,11 +84,11 @@
 			"awake" : true,
 			"linearVelocity" : 0,
 			"massData-mass" : 1,
-			"name" : "carriageAnchorBack",
+			"name" : "carriageAnchor",
 			"position" : 
 			{
-				"x" : -0.9,
-				"y" : 0
+				"x" : -0.3990530967712402,
+				"y" : -0.001721506356261671
 			},
 			"type" : 2
 		}
@@ -152,51 +137,6 @@
 		"x" : 0,
 		"y" : -10
 	},
-	"joint" : 
-	[
-		
-		{
-			"anchorA" : 0,
-			"anchorB" : 
-			{
-				"x" : 0.9,
-				"y" : 0
-			},
-			"bodyA" : 1,
-			"bodyB" : 3,
-			"enableLimit" : true,
-			"enableMotor" : false,
-			"jointSpeed" : 0,
-			"lowerLimit" : 0,
-			"maxMotorTorque" : 0,
-			"motorSpeed" : 0,
-			"name" : "joint1",
-			"refAngle" : 0,
-			"type" : "revolute",
-			"upperLimit" : 0
-		},
-		
-		{
-			"anchorA" : 0,
-			"anchorB" : 
-			{
-				"x" : -0.85,
-				"y" : 0
-			},
-			"bodyA" : 1,
-			"bodyB" : 0,
-			"enableLimit" : true,
-			"enableMotor" : false,
-			"jointSpeed" : 0,
-			"lowerLimit" : 0,
-			"maxMotorTorque" : 0,
-			"motorSpeed" : 0,
-			"name" : "joint0",
-			"refAngle" : 0,
-			"type" : "revolute",
-			"upperLimit" : 0
-		}
-	],
 	"positionIterations" : 3,
 	"stepsPerSecond" : 60.0,
 	"subStepping" : false,

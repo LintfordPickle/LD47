@@ -39,7 +39,7 @@ public class SceneryController extends BaseController implements IProcessMouseIn
 	public int selectedItemIndex = 0;
 
 	public static int getMaxSpriteIndex() {
-		return 5;
+		return 10;
 	}
 
 	public static String getSelectedSpriteName(int pIndex) {
@@ -57,6 +57,16 @@ public class SceneryController extends BaseController implements IProcessMouseIn
 			return "TEXTUREDEPOTWEST";
 		case 5:
 			return "TEXTUREDEPOTSOUTH";
+		case 6:
+			return "TEXTURETREE03";
+		case 7:
+			return "TEXTUREDEPOTNORTHEXT";
+		case 8:
+			return "TEXTUREDEPOTWESTEXT";
+		case 9:
+			return "TEXTURESIGNALBOX";
+		case 10:
+			return "TEXTURESIGNALBOXBROKEN";
 		}
 	}
 

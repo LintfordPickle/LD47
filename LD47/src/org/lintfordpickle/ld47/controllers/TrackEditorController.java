@@ -98,6 +98,17 @@ public class TrackEditorController extends BaseController implements IProcessMou
 		final float lMouseWorldSpaceX = pCore.gameCamera().getMouseWorldSpaceX();
 		final float lMouseWorldSpaceY = pCore.gameCamera().getMouseWorldSpaceY();
 
+		if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_M) && isLeftMouseDown) {
+			if (mSelectedNodeA != null) {
+				mSelectedNodeA.worldPositionX = lMouseWorldSpaceX;
+				mSelectedNodeA.worldPositionY = lMouseWorldSpaceY;
+
+			}
+
+			mIsInMovementMode = false;
+			return true;
+		}
+		
 		// Toggle node enemy spawner
 		if (mSelectedNodeA != null && pCore.input().keyboard().isKeyDownTimed(GLFW.GLFW_KEY_R)) {
 			if (mTrack.enemySpawnNodes.contains((Integer) mSelectedNodeA.poolUid)) {
@@ -144,7 +155,7 @@ public class TrackEditorController extends BaseController implements IProcessMou
 					}
 
 				}
-				
+
 				if (pCore.input().keyboard().isKeyDown(GLFW.GLFW_KEY_B)) {
 					if (pCore.input().mouse().isMouseLeftButtonDown()) {
 						lEdge.signalNode.signalBoxOffsetX = lMouseWorldSpaceX - mSelectedNodeA.worldPositionX;
@@ -171,17 +182,6 @@ public class TrackEditorController extends BaseController implements IProcessMou
 
 			mTrack.reset();
 
-			return true;
-		}
-
-		if (mIsInMovementMode && isLeftMouseDown) {
-			if (mSelectedNodeA != null) {
-				mSelectedNodeA.worldPositionX = lMouseWorldSpaceX;
-				mSelectedNodeA.worldPositionY = lMouseWorldSpaceY;
-
-			}
-
-			mIsInMovementMode = false;
 			return true;
 		}
 
@@ -349,13 +349,6 @@ public class TrackEditorController extends BaseController implements IProcessMou
 			}
 
 			return true;
-		}
-
-		if (pCore.input().keyboard().isKeyDownTimed(GLFW.GLFW_KEY_M)) {
-			if (mSelectedNodeA != null) {
-				mIsInMovementMode = true;
-
-			}
 		}
 
 		// Check for collision with edges

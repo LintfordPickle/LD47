@@ -113,7 +113,8 @@ public class PlayerControlsRenderer extends UIWindow implements IProcessMouseInp
 
 	@Override
 	public boolean handleInput(LintfordCore pCore) {
-		return mFollowTrainToggleButton.handleInput(pCore);
+		mFollowTrainToggleButton.handleInput(pCore);
+		return super.handleInput(pCore);
 
 	}
 

@@ -42,10 +42,15 @@ public class Train extends PooledBaseData {
 
 	private float mForce;
 	private float mTargetSpeed;
+	private int mTrainNumber;
 
 	// ---------------------------------------------
 	// Properties
 	// ---------------------------------------------
+
+	public int trainNumber() {
+		return mTrainNumber;
+	}
 
 	public float getSpeed() {
 		return mTargetSpeed;
@@ -184,6 +189,10 @@ public class Train extends PooledBaseData {
 	// Methods
 	// ---------------------------------------------
 
+	public void setTrainNumber(int pTrainNumber) {
+		mTrainNumber = pTrainNumber;
+	}
+
 	public void setPhysicsObject(JBox2dEntityInstance pPhysicsObject) {
 		mBox2dEntityInstance = pPhysicsObject;
 
@@ -209,10 +218,13 @@ public class Train extends PooledBaseData {
 			return;
 		mDestinationNode = pNode;
 
-		mWorldPositionX = pNode.worldPositionX;
-		mWorldPositionY = pNode.worldPositionY;
-
-		updatePhysicsPosition(true);
+		if(pFirstTime) {
+			mWorldPositionX = pNode.worldPositionX;
+			mWorldPositionY = pNode.worldPositionY;
+			
+			updatePhysicsPosition(true);
+			
+		}
 
 	}
 

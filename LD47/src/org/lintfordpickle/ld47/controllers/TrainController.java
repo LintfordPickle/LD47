@@ -27,6 +27,12 @@ public class TrainController extends BaseController {
 	private static final float TRAIN_LENGTH_IN_PIXELS = 16.0f;
 	private static final float TRAIN_WIDTH_IN_PIXELS = 8.0f;
 
+	private int mTrainCounter = 0;
+
+	public int getNewTrainNumber() {
+		return mTrainCounter;
+	}
+
 	// ---------------------------------------------
 	// Variables
 	// ---------------------------------------------
@@ -134,10 +140,14 @@ public class TrainController extends BaseController {
 				} else {
 					// Manually check the distance
 					final var lDestinationNode = lTrain.destinationNode();
-					final var lDistanceToDestination = Vector2f.distance(lDestinationNode.worldPositionX, lDestinationNode.worldPositionY, lTrain.worldPositionX(), lTrain.worldPositionY());
-					if (lDistanceToDestination < 4.0f) {
-						sendTrainToNextDestination(lTrain);
+					if (lDestinationNode != null) {
+						final var lDistanceToDestination = Vector2f.distance(lDestinationNode.worldPositionX, lDestinationNode.worldPositionY, lTrain.worldPositionX(), lTrain.worldPositionY());
+						if (lDistanceToDestination < 4.0f) {
+							sendTrainToNextDestination(lTrain);
+						}
+
 					}
+
 				}
 
 			}
@@ -162,11 +172,16 @@ public class TrainController extends BaseController {
 			pNumCarriages = 0;
 
 		final var lTrack = mTrackController.track();
-		final Train lNewTrain = mTrainManager.getFreePooledItem();
+		final int lNewTrainNumber = getNewTrainNumber();
+
+		final var lNewTrain = mTrainManager.getFreePooledItem();
+		lNewTrain.setTrainNumber(lNewTrainNumber);
 		lNewTrain.isCarriage = false;
 
 		final var lTrainObject = mBox2dGameController.getTrainPhysicsObject(0, 0, TRAIN_LENGTH_IN_PIXELS, TRAIN_WIDTH_IN_PIXELS);
-		lTrainObject.userDataObject(new TrainPhysicsData(lNewTrain));
+
+		final var lTrainPhysicsData = new TrainPhysicsData(lNewTrain);
+		lTrainObject.userDataObject(lTrainPhysicsData);
 
 		lNewTrain.setPhysicsObject(lTrainObject);
 
@@ -176,11 +191,14 @@ public class TrainController extends BaseController {
 		JBox2dEntityInstance lLeadingTrain = lNewTrain.physicsObject(); // Main engine
 		for (int i = 0; i < pNumCarriages; i++) {
 			final Train lNewTrainCarriage = mTrainManager.getFreePooledItem();
-			lNewTrainCarriage.isCarriage = false;
+			lNewTrainCarriage.isCarriage = true;
+			lNewTrainCarriage.setTrainNumber(lNewTrainNumber);
 
 			final var lTrainCarriageObject = mBox2dGameController.getTrainCarriagePhysicsObject(lLeadingTrain, TRAIN_LENGTH_IN_PIXELS, TRAIN_WIDTH_IN_PIXELS);
-
+			lTrainCarriageObject.userDataObject(lTrainPhysicsData);
 			lNewTrainCarriage.setPhysicsObject(lTrainCarriageObject);
+
+			lNewTrainCarriage.setLocation(lSpawnNode, false);
 
 			mBox2dGameController.connectTrainCarriages(lNewTrain, lNewTrainCarriage);
 
@@ -229,6 +247,8 @@ public class TrainController extends BaseController {
 		final var lTrack = mTrackController.track();
 
 		final var lCurrentNode = pTrain.destinationNode();
+		if (lCurrentNode == null)
+			return;
 
 		final var lNextEdge = getNextEdge(pTrain);
 		if (lNextEdge == null) {
@@ -246,7 +266,8 @@ public class TrainController extends BaseController {
 
 		// Just update the rotation
 		// FIXME: not simulating physics properly = breaks carriages
-		pTrain.physicsObject().transformEntityInstance(pTrain.worldPositionX(), pTrain.worldPositionY(), lTrainAngle);
+		if (!pTrain.isCarriage)
+			pTrain.physicsObject().transformEntityInstance(pTrain.worldPositionX(), pTrain.worldPositionY(), lTrainAngle);
 
 		if (pTrain.pullJoint() != null) {
 			mBox2dGameController.world().destroyJoint(pTrain.pullJoint());
@@ -259,7 +280,7 @@ public class TrainController extends BaseController {
 		}
 
 		// pTrain.setLocation(lCurrentNode);
-		final var lForce = 50.f;//pTrain.getForce();
+		final var lForce = 50.f;// pTrain.getForce();
 		final var lSpeed = pTrain.getSpeed();
 
 		final var lPullJoint = mBox2dGameController.getPrismaticJointToNode(pTrain, lDestinationNode, lForce, lSpeed);

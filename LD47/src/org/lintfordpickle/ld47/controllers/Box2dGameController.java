@@ -155,12 +155,12 @@ public class Box2dGameController extends Box2dWorldController {
 		}
 
 		RevoluteJointDef lJointDef = new RevoluteJointDef();
-		final var lBodyA = pLead.physicsObject().mainBody().mBody;
-		final var lBodyB = pTail.physicsObject().mainBody().mBody;
+		final var lAnchorBack = pLead.physicsObject().getBodyByName("carriageAnchorBack");
+		final var lAnchorFront = pTail.physicsObject().getBodyByName("carriageAnchorFront");
 
-		lJointDef.initialize(lBodyA, lBodyB, lBodyA.getWorldCenter());
+		lJointDef.initialize(lAnchorBack.mBody, lAnchorFront.mBody, lAnchorBack.mBody.getWorldCenter());
 
-		lJointDef.enableLimit = true;
+		lJointDef.enableLimit = false;
 		lJointDef.lowerAngle = (float) Math.toRadians(-20.f);
 		lJointDef.upperAngle = (float) Math.toRadians(20.f);
 
@@ -193,7 +193,7 @@ public class Box2dGameController extends Box2dWorldController {
 		final float lDist = Vector2f.distance(pTrainToPull.worldPositionX(), pTrainToPull.worldPositionY(), pGoToNode.worldPositionX, pGoToNode.worldPositionY);
 		lJointDef.upperTranslation = ConstantsPhysics.toUnits(lDist);
 
-		lJointDef.enableMotor = true;
+		lJointDef.enableMotor = !pTrainToPull.isCarriage;
 		lJointDef.maxMotorForce = pForce;
 		lJointDef.motorSpeed = pSpeed;
 
