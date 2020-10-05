@@ -21,7 +21,7 @@ public class BackgroundScreen extends Screen {
 	public void loadGLContent(ResourceManager pResourceManager) {
 		super.loadGLContent(pResourceManager);
 
-		mIntroTexture = pResourceManager.textureManager().loadTexture("TEXTURE_INTRO", "res/textures/textureScreenIntro.png", entityGroupID());
+		mIntroTexture = pResourceManager.textureManager().loadTexture("TEXTURE_INTRO", "res/textures/screens/textureScreenMenuBackground.png", entityGroupID());
 
 	}
 

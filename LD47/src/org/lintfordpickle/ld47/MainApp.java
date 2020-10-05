@@ -1,13 +1,18 @@
 package org.lintfordpickle.ld47;
 
 import org.lintfordpickle.ld47.screens.BackgroundScreen;
+import org.lintfordpickle.ld47.screens.GameScreen;
 import org.lintfordpickle.ld47.screens.MainMenuScreen;
+import org.lintfordpickle.ld47.screens.TrackEditorScreen;
 
 import net.lintford.library.GameInfo;
 import net.lintford.library.controllers.core.MouseCursorController;
 import net.lintford.library.controllers.core.ResourceController;
 import net.lintford.library.core.LintfordCore;
+import net.lintford.library.screenmanager.IMenuAction;
+import net.lintford.library.screenmanager.Screen;
 import net.lintford.library.screenmanager.ScreenManager;
+import net.lintford.library.screenmanager.screens.TimedIntroScreen;
 
 public class MainApp extends LintfordCore {
 
@@ -78,12 +83,39 @@ public class MainApp extends LintfordCore {
 		var lResourceController = new ResourceController(mControllerManager, mResourceManager, CORE_ENTITY_GROUP_ID);
 		lResourceController.initialize(this);
 
-		// FIXME: Before release, re-enable menu
-		mScreenManager.addScreen(new BackgroundScreen(mScreenManager));
-		mScreenManager.addScreen(new MainMenuScreen(mScreenManager));
+		// Quick launch
+		if (GameConstants.QUICK_LAUNCH_GAME) {
+			mScreenManager.addScreen(new GameScreen(mScreenManager));
 
-		// mScreenManager.addScreen(new GameScreen(mScreenManager));
-		// mScreenManager.addScreen(new TrackEditorScreen(mScreenManager));
+		} else if (GameConstants.QUICK_LAUNCH_EDITOR) {
+			mScreenManager.addScreen(new TrackEditorScreen(mScreenManager));
+
+		} else {
+			if (!GameConstants.QUICK_LAUNCH_SKIP_INTRO) {
+				final var lSplashScreen = new TimedIntroScreen(mScreenManager, "res/textures/screens/textureScreenSplash.png", 4f);
+				lSplashScreen.stretchBackgroundToFit(true);
+
+				lSplashScreen.setTimerFinishedCallback(new IMenuAction() {
+
+					@Override
+					public void TimerFinished(Screen pScreen) {
+						mScreenManager.addScreen(new BackgroundScreen(mScreenManager));
+						mScreenManager.addScreen(new MainMenuScreen(mScreenManager));
+
+					}
+
+				});
+
+				mScreenManager.addScreen(lSplashScreen);
+
+			} else {
+				// Normal start
+				mScreenManager.addScreen(new BackgroundScreen(mScreenManager));
+				mScreenManager.addScreen(new MainMenuScreen(mScreenManager));
+
+			}
+
+		}
 
 		mScreenManager.initialize();
 
