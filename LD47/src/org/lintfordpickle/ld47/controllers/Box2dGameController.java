@@ -174,6 +174,8 @@ public class Box2dGameController extends Box2dWorldController {
 
 	public PrismaticJoint getPrismaticJointToNode(Train pTrainToPull, Node pGoToNode, float pForce, float pSpeed) {
 		PrismaticJointDef lJointDef = new PrismaticJointDef();
+		
+		System.out.println("Pulling train to node : " + pGoToNode.poolUid);
 
 		final var lBodyA = pGoToNode.box2dEntityInstance().mainBody().mBody;
 		final var lBodyB = pTrainToPull.physicsObject().mainBody().mBody;
@@ -186,7 +188,8 @@ public class Box2dGameController extends Box2dWorldController {
 
 		lJointDef.initialize(lBodyA, lBodyB, lAnchor, lAxis);
 
-		lJointDef.enableLimit = true;
+		// FIXME: Enabling the prismatic joint limit causes the trains to launch into the atmosphere
+		lJointDef.enableLimit = false;
 		lJointDef.lowerTranslation = 0.f;
 
 		final float lDist = Vector2f.distance(pTrainToPull.worldPositionX(), pTrainToPull.worldPositionY(), pGoToNode.worldPositionX, pGoToNode.worldPositionY);
