@@ -14,7 +14,7 @@ public class GameLostScreen extends MenuScreen {
 
 	private static final String WINDOW_TITLE = "Game Lost";
 
-	private static final int BUTTON_CONTINUE = 0;
+	private static final int BUTTON_RETRY = 0;
 	private static final int BUTTON_END = 1;
 
 	// ---------------------------------------------
@@ -26,14 +26,14 @@ public class GameLostScreen extends MenuScreen {
 
 		ListLayout lButtonsLayout = new ListLayout(this);
 
-		MenuEntry lButtonResume = new MenuEntry(mScreenManager, lButtonsLayout, "Resume");
+		MenuEntry lButtonRetry = new MenuEntry(mScreenManager, lButtonsLayout, "Retry");
 		MenuEntry lButtonEnd = new MenuEntry(mScreenManager, lButtonsLayout, "Exit to Menu");
 
 		// register clicks
-		lButtonResume.registerClickListener(this, BUTTON_CONTINUE);
+		lButtonRetry.registerClickListener(this, BUTTON_RETRY);
 		lButtonEnd.registerClickListener(this, BUTTON_END);
 
-		lButtonsLayout.menuEntries().add(lButtonResume);
+		lButtonsLayout.menuEntries().add(lButtonRetry);
 		lButtonsLayout.menuEntries().add(lButtonEnd);
 
 		layouts().add(lButtonsLayout);
@@ -49,8 +49,8 @@ public class GameLostScreen extends MenuScreen {
 	@Override
 	protected void handleOnClick() {
 		switch (mClickAction.consume()) {
-		case BUTTON_CONTINUE:
-			exitScreen();
+		case BUTTON_RETRY:
+			LoadingScreen.load(mScreenManager, false, new GameScreen(mScreenManager));
 			break;
 
 		case BUTTON_END:
